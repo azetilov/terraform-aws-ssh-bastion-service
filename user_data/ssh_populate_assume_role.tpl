@@ -8,7 +8,7 @@ export AWS_ACCESS_KEY_ID=$${KST[0]}; export AWS_SECRET_ACCESS_KEY=$${KST[1]}; ex
 count=1
 /opt/iam-authorized-keys-command | while read line
 do
-    username=$( echo $line | sed -e 's/^# //' -e 's/+/plus/' -e 's/=/equal/' -e 's/,/comma/' -e 's/@/at/' )
+    username=$( echo $${line,,} | cut -d '@' -f 1 | sed -e 's/^# //' -e 's/+/plus/' -e 's/=/equal/' -e 's/,/comma/' -e 's/@/at/' )
     useradd -m -s /bin/bash -k /etc/skel $username
     usermod -a -G sudo $username
     echo $username\ 'ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/$count
